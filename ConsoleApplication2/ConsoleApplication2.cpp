@@ -20,14 +20,17 @@ void arduinoSerialRead(void);
 void arduinoCheckIdle(bool& idle);
 int main()
 {
+	char gcode[20];
 	arduinoSerialInit();
 	Sleep(2000);
 	arduinoSerialWrite("$h\n");
 	Sleep(4000);
+	sprintf_s(gcode, "g92x0y0z0\n"); //set all to zero
+	arduinoSerialWrite(gcode);
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-	int xMax = 30;
-	char gcode[16];
+	int xMax = 100;
+	
 	sprintf_s(gcode, "g0x%dy0\n", xMax);
 	arduinoSerialWrite(gcode);
 	bool idle = true;
